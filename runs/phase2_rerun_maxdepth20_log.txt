@@ -1,0 +1,104 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+extracting features...
+train features: (2931, 128)  test features: (629, 128)
+
+=== GradientBoosting ===
+accuracy=0.9746 precision=0.9785 recall=0.9566 f1=0.9654
+
+=== LogisticRegression ===
+accuracy=0.9698 precision=0.9725 recall=0.9509 f1=0.9596
+
+=== SVM ===
+accuracy=0.9682 precision=0.9670 recall=0.9509 f1=0.9577
+
+=== XGBoost ===
+accuracy=0.9698 precision=0.9725 recall=0.9509 f1=0.9596
+
+=== LightGBM ===
+accuracy=0.9714 precision=0.9737 recall=0.9522 f1=0.9609
+
+=== ExtraTrees ===
+accuracy=0.9682 precision=0.9690 recall=0.9495 f1=0.9574
+
+=== VotingEnsemble ===
+accuracy=0.9714 precision=0.9738 recall=0.9538 f1=0.9620
+
+saved: ..\runs\seed1\phase2_results.json
+
+=== Summary (LightET-FusionNet = ExtraTrees row) ===
+GradientBoosting     acc=97.46  prec=97.85  rec=95.66  f1=96.54
+LogisticRegression   acc=96.98  prec=97.25  rec=95.09  f1=95.96
+SVM                  acc=96.82  prec=96.70  rec=95.09  f1=95.77
+XGBoost              acc=96.98  prec=97.25  rec=95.09  f1=95.96
+LightGBM             acc=97.14  prec=97.37  rec=95.22  f1=96.09
+ExtraTrees           acc=96.82  prec=96.90  rec=94.95  f1=95.74
+VotingEnsemble       acc=97.14  prec=97.38  rec=95.38  f1=96.20
+extracting features...
+train features: (2931, 128)  test features: (629, 128)
+
+=== GradientBoosting ===
+accuracy=0.9650 precision=0.9515 recall=0.9537 f1=0.9526
+
+=== LogisticRegression ===
+accuracy=0.9603 precision=0.9438 recall=0.9508 f1=0.9468
+
+=== SVM ===
+accuracy=0.9634 precision=0.9485 recall=0.9537 f1=0.9508
+
+=== XGBoost ===
+accuracy=0.9571 precision=0.9414 recall=0.9483 f1=0.9444
+
+=== LightGBM ===
+accuracy=0.9682 precision=0.9558 recall=0.9578 f1=0.9568
+
+=== ExtraTrees ===
+accuracy=0.9634 precision=0.9485 recall=0.9537 f1=0.9508
+
+=== VotingEnsemble ===
+accuracy=0.9650 precision=0.9509 recall=0.9551 f1=0.9528
+
+saved: ..\runs\seed2\phase2_results.json
+
+=== Summary (LightET-FusionNet = ExtraTrees row) ===
+GradientBoosting     acc=96.50  prec=95.15  rec=95.37  f1=95.26
+LogisticRegression   acc=96.03  prec=94.38  rec=95.08  f1=94.68
+SVM                  acc=96.34  prec=94.85  rec=95.37  f1=95.08
+XGBoost              acc=95.71  prec=94.14  rec=94.83  f1=94.44
+LightGBM             acc=96.82  prec=95.58  rec=95.78  f1=95.68
+ExtraTrees           acc=96.34  prec=94.85  rec=95.37  f1=95.08
+VotingEnsemble       acc=96.50  prec=95.09  rec=95.51  f1=95.28
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+extracting features...
+train features: (2931, 128)  test features: (629, 128)
+
+=== GradientBoosting ===
+accuracy=0.9682 precision=0.9609 recall=0.9566 f1=0.9587
+
+=== LogisticRegression ===
+accuracy=0.9714 precision=0.9605 recall=0.9653 f1=0.9628
+
+=== SVM ===
+accuracy=0.9698 precision=0.9577 recall=0.9624 f1=0.9600
+
+=== XGBoost ===
+accuracy=0.9682 precision=0.9572 recall=0.9581 f1=0.9576
+
+=== LightGBM ===
+accuracy=0.9698 precision=0.9623 recall=0.9581 f1=0.9601
+
+=== ExtraTrees ===
+accuracy=0.9714 precision=0.9595 recall=0.9653 f1=0.9622
+
+=== VotingEnsemble ===
+accuracy=0.9730 precision=0.9641 recall=0.9653 f1=0.9647
+
+saved: ..\runs\seed3\phase2_results.json
+
+=== Summary (LightET-FusionNet = ExtraTrees row) ===
+GradientBoosting     acc=96.82  prec=96.09  rec=95.66  f1=95.87
+LogisticRegression   acc=97.14  prec=96.05  rec=96.53  f1=96.28
+SVM                  acc=96.98  prec=95.77  rec=96.24  f1=96.00
+XGBoost              acc=96.82  prec=95.72  rec=95.81  f1=95.76
+LightGBM             acc=96.98  prec=96.23  rec=95.81  f1=96.01
+ExtraTrees           acc=97.14  prec=95.95  rec=96.53  f1=96.22
+VotingEnsemble       acc=97.30  prec=96.41  rec=96.53  f1=96.47

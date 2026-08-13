@@ -13,9 +13,10 @@ Classifier configs per Section II-E (grid-searched values not searched here
   - XGBoost: 300 trees, max_depth=6, lr=0.1, subsample=0.9
   - LR: L2, C=1.0, max_iter=2000
   - LightGBM: 500 estimators, 31 leaves, lr=0.1
-  - ExtraTrees (LightET-FusionNet): 200 estimators, max_depth=None (paper
-    says "None or 20" from a grid search that wasn't fully specified; we use
-    None), max_features='sqrt', class_weight='balanced'
+  - ExtraTrees (LightET-FusionNet): 200 estimators, max_depth=20 (paper's
+    GridSearchCV considered "None or 20" -- originally left at the sklearn
+    default None since the paper text didn't say which one won; confirmed
+    to be 20), max_features='sqrt', class_weight='balanced'
   - VotingEnsemble: soft-voting over {LR, SVM, GB} (paper names "Voting
     Ensemble" as one of the compared classifiers without specifying its
     member models; we chose a reasonable 3-member composition)
@@ -68,7 +69,7 @@ def build_classifiers(seed: int):
         "XGBoost": XGBClassifier(n_estimators=300, max_depth=6, learning_rate=0.1, subsample=0.9,
                                   random_state=seed, eval_metric="mlogloss"),
         "LightGBM": LGBMClassifier(n_estimators=500, num_leaves=31, learning_rate=0.1, random_state=seed, verbosity=-1),
-        "ExtraTrees": ExtraTreesClassifier(n_estimators=200, max_depth=None, max_features="sqrt",
+        "ExtraTrees": ExtraTreesClassifier(n_estimators=200, max_depth=20, max_features="sqrt",
                                             class_weight="balanced", random_state=seed),
     }
 
