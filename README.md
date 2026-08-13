@@ -14,6 +14,39 @@
 > 2026. 沒有找到官方程式碼;這是從 Section II(公式 1-7、Figure 1-2)和
 > Section II-E 獨立重新實作的 clean-room 版本。
 
+## Pretrained Models
+
+發布在 [Releases](https://github.com/Amelieee-m-c/Light-FusionNet/releases/tag/v1.0-official):
+
+| 檔案 | 內容 | 備註 |
+|---|---|---|
+| `backbone_seed3_best.pt` | CNN backbone(EfficientNetV2B0+SE),輸出 128 維 embedding | seed 3,三個 seed 裡 ExtraTrees 表現最好(97.14%) |
+| `scaler_seed3_best.joblib` | StandardScaler | 對應 seed 3 的 embedding 標準化參數 |
+| `extratrees_seed3_best.joblib` | 訓練好的 ExtraTrees 分類器 | 200 棵樹,max_depth=20 |
+| `backbone_seed1.pt` / `backbone_seed2.pt` | 另外兩個 seed 的 CNN backbone | 供對照,沒有附對應的 scaler/ExtraTrees |
+
+完整 pipeline 要三個檔案(backbone + scaler + ExtraTrees)一起載入才能用,
+只有 backbone 只能拿到 128 維 embedding,還不能直接分類:
+
+```python
+import torch
+import joblib
+from src.model import LightETBackbone
+
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+model = LightETBackbone(num_classes=4).to(device)
+model.load_state_dict(torch.load("backbone_seed3_best.pt", map_location=device))
+model.eval()
+
+scaler = joblib.load("scaler_seed3_best.joblib")
+clf = joblib.load("extratrees_seed3_best.joblib")
+
+# x: 一個 batch 的影像 tensor,先做跟訓練時一樣的前處理(resize 256 + Normalize(0.5,0.5,0.5))
+embedding = model.embed(x).cpu().numpy()      # (B, 128)
+embedding_scaled = scaler.transform(embedding)
+pred = clf.predict(embedding_scaled)           # 類別 index
+```
+
 ## 重現結果
 
 玉米葉,4 類,3-seed 平均值 ± 標準差:

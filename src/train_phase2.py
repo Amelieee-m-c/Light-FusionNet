@@ -25,6 +25,7 @@ import argparse
 import json
 from pathlib import Path
 
+import joblib
 import numpy as np
 import torch
 from torch.utils.data import DataLoader
@@ -142,6 +143,13 @@ def main():
     with open(out_dir / "phase2_results.json", "w") as f:
         json.dump(results, f, indent=2)
     print(f"\nsaved: {out_dir / 'phase2_results.json'}")
+
+    # persist the fitted scaler + ExtraTrees classifier (the paper's namesake
+    # "LightET-FusionNet" model) so the full backbone->embedding->ET pipeline
+    # is actually loadable/usable, not just the CNN backbone half of it.
+    joblib.dump(scaler, out_dir / "phase2_scaler.joblib")
+    joblib.dump(classifiers["ExtraTrees"], out_dir / "phase2_extratrees.joblib")
+    print(f"saved: {out_dir / 'phase2_scaler.joblib'}, {out_dir / 'phase2_extratrees.joblib'}")
     print("\n=== Summary (LightET-FusionNet = ExtraTrees row) ===")
     for name, r in results.items():
         print(f"{name:20s} acc={r['accuracy']*100:.2f}  prec={r['precision_macro']*100:.2f}  "
