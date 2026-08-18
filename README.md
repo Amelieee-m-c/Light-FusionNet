@@ -44,7 +44,12 @@ clf = joblib.load("extratrees_seed3_best.joblib")
 # x: 一個 batch 的影像 tensor,先做跟訓練時一樣的前處理(resize 256 + Normalize(0.5,0.5,0.5))
 embedding = model.embed(x).cpu().numpy()      # (B, 128)
 embedding_scaled = scaler.transform(embedding)
-pred = clf.predict(embedding_scaled)           # 類別 index
+
+# clf.predict(...) 是 sklearn 內建的 soft voting(平均每棵樹的機率)。
+# 論文描述的是 hard voting(每棵樹各投一票、多數決),對應寫法:
+import numpy as np
+tree_preds = np.stack([t.predict(embedding_scaled) for t in clf.estimators_])  # (200, B)
+pred = np.array([np.bincount(tree_preds[:, i].astype(int)).argmax() for i in range(tree_preds.shape[1])])
 ```
 
 ## 重現結果
@@ -59,7 +64,7 @@ pred = clf.predict(embedding_scaled)           # 類別 index
 | Voting Ensemble | 96.97% | 96.98 ± 0.34% |
 | XGBoost | 96.66% | 96.50 ± 0.57% |
 | LightGBM | 96.34% | 96.98 ± 0.13% |
-| **ExtraTrees("LightET-FusionNet")** | **97.30%**(論文裡最好的) | 96.77 ± 0.33%(這裡不是最好的) |
+| **ExtraTrees("LightET-FusionNet")** | **97.30%**(論文裡最好的) | 96.71 ± 0.27%(hard voting,這裡不是最好的) |
 
 參數量幾乎完全對上:可訓練參數 6,629,652 + BatchNorm buffer 60,667 =
 總共 6,690,319,對比論文宣稱的 6.62M + 63,168 = 6.69M——是這次所有重現
@@ -73,9 +78,24 @@ ExtraTrees 明顯是最好的分類器(比第二名高 0.33 個百分點)。這�
 (ExtraTrees 三個 seed 平均還是 96.77±0.33%,數字一模一樣)。原因是這個
 資料集在不限制深度時,ExtraTrees 的樹本身就沒有長超過 20 層,所以
 `max_depth=20` 對這個資料集來說是個沒有實際作用的限制。這排除了
-「max_depth 猜錯」這個候選解釋——ExtraTrees 沒有重現出「明顯最佳」,
-原因應該在別的地方(可能是論文 GridSearchCV 調的其他參數、或是訓練
-資料切分/前處理上還有沒對齊的細節),不是這一個超參數的問題。
+「max_depth 猜錯」這個候選解釋。
+
+**2026-08-18 更新**:論文原文其實還有一句更具體的話沒對齊——「The ET
+classifier follows a **hard-voting** strategy in which all decision trees
+contribute equally to the final prediction without assigning explicit
+weights」。sklearn 的 `ExtraTreesClassifier.predict()` 預設其實是
+**soft voting**(把每棵樹預測的機率平均、再取最大值),不是字面上「每棵
+樹各投一票、多數決」的 hard voting——這是 sklearn 一個容易被忽略的實作
+細節,我們之前一直用預設的 `.predict()`,沒有特別處理。改成真正的
+hard voting(拿 `clf.estimators_` 裡每棵樹各自的 `.predict()` 結果做多數決,
+見 `train_phase2.py::predict_hard_voting`)重跑後:**96.71 ± 0.27%**,
+跟 soft voting 的 96.77 ± 0.33% 幾乎一樣(甚至還低了 0.06pp)。
+
+`max_depth` 和 hard voting 這兩個從論文文字挖出來的具體細節,都測過了,
+**都對結果沒有實質影響**——ExtraTrees 沒有重現出論文「明顯最佳」這個
+結果的真正原因,還是沒找到,可能藏在論文 GridSearchCV 調的其他參數、
+或是訓練資料切分/前處理上還沒對齊的細節裡,也可能單純是論文那次實驗的
+隨機性。
 
 ## 範圍
 

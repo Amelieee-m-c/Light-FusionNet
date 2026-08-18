@@ -62,6 +62,22 @@ def extract_features(model, loader, device):
     return np.concatenate(feats), np.concatenate(labels)
 
 
+def predict_hard_voting(clf, X):
+    """True hard voting across an ExtraTreesClassifier's internal trees: each
+    tree casts one vote for its predicted class, majority wins -- distinct
+    from sklearn's built-in .predict(), which averages each tree's predicted
+    class *probabilities* (soft voting) and argmaxes that. The paper is
+    explicit that ET "follows a hard-voting strategy in which all decision
+    trees contribute equally... without assigning explicit weights," which
+    sklearn's default does not actually implement."""
+    tree_preds = np.stack([tree.predict(X) for tree in clf.estimators_], axis=0).astype(int)  # (n_trees, n_samples)
+    n_classes = int(tree_preds.max()) + 1
+    # one-hot count votes per class per sample, then take the argmax (majority)
+    one_hot = np.eye(n_classes, dtype=int)[tree_preds]  # (n_trees, n_samples, n_classes)
+    vote_counts = one_hot.sum(axis=0)  # (n_samples, n_classes)
+    return vote_counts.argmax(axis=1)
+
+
 def build_classifiers(seed: int):
     return {
         "GradientBoosting": GradientBoostingClassifier(n_estimators=200, learning_rate=0.1, max_depth=3, random_state=seed),
@@ -129,7 +145,10 @@ def main():
     for name, clf in classifiers.items():
         print(f"\n=== {name} ===")
         clf.fit(X_train_s, y_train)
-        y_pred = clf.predict(X_test_s)
+        if name == "ExtraTrees":
+            y_pred = predict_hard_voting(clf, X_test_s)
+        else:
+            y_pred = clf.predict(X_test_s)
         acc = accuracy_score(y_test, y_pred)
         precision, recall, f1, _ = precision_recall_fscore_support(y_test, y_pred, average="macro", zero_division=0)
         cm = confusion_matrix(y_test, y_pred)

@@ -165,15 +165,15 @@
     "classification_report": "                precision    recall  f1-score   support\n\n        Blight     0.9486    0.9651    0.9568       172\n   Common_Rust     0.9848    0.9949    0.9898       196\nGray_Leaf_Spot     0.9157    0.8837    0.8994        86\n       Healthy     1.0000    0.9886    0.9943       175\n\n      accuracy                         0.9698       629\n     macro avg     0.9623    0.9581    0.9601       629\n  weighted avg     0.9697    0.9698    0.9697       629\n"
   },
   "ExtraTrees": {
-    "accuracy": 0.9713831478537361,
-    "precision_macro": 0.959486102133161,
-    "recall_macro": 0.965344091124822,
-    "f1_macro": 0.9622166263337695,
+    "accuracy": 0.9697933227344993,
+    "precision_macro": 0.9570362747620272,
+    "recall_macro": 0.963890602752729,
+    "f1_macro": 0.9601795902166375,
     "confusion_matrix": [
       [
-        163,
+        162,
         0,
-        9,
+        10,
         0
       ],
       [
@@ -195,7 +195,7 @@
         173
       ]
     ],
-    "classification_report": "                precision    recall  f1-score   support\n\n        Blight     0.9588    0.9477    0.9532       172\n   Common_Rust     1.0000    0.9949    0.9974       196\nGray_Leaf_Spot     0.8791    0.9302    0.9040        86\n       Healthy     1.0000    0.9886    0.9943       175\n\n      accuracy                         0.9714       629\n     macro avg     0.9595    0.9653    0.9622       629\n  weighted avg     0.9722    0.9714    0.9717       629\n"
+    "classification_report": "                precision    recall  f1-score   support\n\n        Blight     0.9586    0.9419    0.9501       172\n   Common_Rust     1.0000    0.9949    0.9974       196\nGray_Leaf_Spot     0.8696    0.9302    0.8989        86\n       Healthy     1.0000    0.9886    0.9943       175\n\n      accuracy                         0.9698       629\n     macro avg     0.9570    0.9639    0.9602       629\n  weighted avg     0.9708    0.9698    0.9701       629\n"
   },
   "VotingEnsemble": {
     "accuracy": 0.972972972972973,
