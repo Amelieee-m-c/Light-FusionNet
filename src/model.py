@@ -34,7 +34,13 @@ Known paper ambiguities, resolved here (documented, not silently guessed):
      backwards (softmax(num_classes) -> Dense(128) -> Dropout -> Dense(256))
      puts the "third-to-last" at Dropout, not Dense(128) -- yet Figure 2
      explicitly labels the ExtraTrees input as "128 Features." We trust
-     Figure 2's concrete number and take features from the Dense(128) layer.
+     Figure 2's concrete number and take features from the Dense(128) layer
+     by default (`embed()`). Counting only *dense* layers (there are exactly
+     3: 256 -> 128 -> softmax) instead puts "third-to-last dense layer" at
+     Dense(256) -- provided as an alternate extractor (`embed256()`),
+     selectable via `train_phase2.py --feature_layer 256`, to test whether
+     this reading explains why ExtraTrees didn't reproduce as the clear best
+     classifier (see README "ExtraTrees ranking" section).
   3. Activation on the Dense(128) layer isn't stated; we use ReLU, matching
      the Dense(256) layer immediately before it.
 """
@@ -89,6 +95,14 @@ class LightETBackbone(nn.Module):
         h = self.dropout(h)
         h = self.act128(self.dense128(h))
         return h  # (B, 128)
+
+    def embed256(self, x):
+        """Alternate 256-d feature embedding, taken right after Dense(256)
+        (before Dropout/Dense(128)) -- see docstring point 2 above."""
+        z = self.backbone(x)
+        z = self.se(z)
+        h = self.act256(self.dense256(z))
+        return h  # (B, 256)
 
     def forward(self, x):
         h = self.embed(x)

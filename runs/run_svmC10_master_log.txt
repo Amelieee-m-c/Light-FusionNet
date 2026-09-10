@@ -1,0 +1,129 @@
+﻿=== seed 1 : SVM C=10.0 ===
+python.exe : Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher ra
+te limits and faster downloads.
+位於 E:\plant_disease\LightETFusion_repro\run_phase2_svmC10.ps1:14 字元:3
++   & $py -u train_phase2.py `
++   ~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (Warning: You ar...ster downloads.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+extracting features (layer=128)...
+train features: (2931, 128)  test features: (629, 128)
+
+=== GradientBoosting ===
+accuracy=0.9730 precision=0.9750 recall=0.9551 f1=0.9633
+
+=== LogisticRegression ===
+accuracy=0.9698 precision=0.9725 recall=0.9509 f1=0.9596
+
+=== SVM ===
+accuracy=0.9666 precision=0.9620 recall=0.9509 f1=0.9558
+
+=== XGBoost ===
+accuracy=0.9714 precision=0.9738 recall=0.9538 f1=0.9620
+
+=== LightGBM ===
+accuracy=0.9698 precision=0.9724 recall=0.9493 f1=0.9585
+
+=== ExtraTrees ===
+accuracy=0.9698 precision=0.9703 recall=0.9524 f1=0.9598
+
+=== VotingEnsemble ===
+accuracy=0.9714 precision=0.9738 recall=0.9538 f1=0.9620
+
+saved: E:\plant_disease\LightETFusion_repro\runs\seed1\svmC10\phase2_results.json
+saved: E:\plant_disease\LightETFusion_repro\runs\seed1\svmC10\phase2_scaler.joblib, E:\plant_disease\LightETFusion_repro\runs\seed1\svmC10\phase2_extratrees.joblib
+
+=== Summary (LightET-FusionNet = ExtraTrees row) ===
+GradientBoosting     acc=97.30  prec=97.50  rec=95.51  f1=96.33
+LogisticRegression   acc=96.98  prec=97.25  rec=95.09  f1=95.96
+SVM                  acc=96.66  prec=96.20  rec=95.09  f1=95.58
+XGBoost              acc=97.14  prec=97.38  rec=95.38  f1=96.20
+LightGBM             acc=96.98  prec=97.24  rec=94.93  f1=95.85
+ExtraTrees           acc=96.98  prec=97.03  rec=95.24  f1=95.98
+VotingEnsemble       acc=97.14  prec=97.38  rec=95.38  f1=96.20
+=== seed 2 : SVM C=10.0 ===
+extracting features (layer=128)...
+train features: (2931, 128)  test features: (629, 128)
+
+=== GradientBoosting ===
+accuracy=0.9666 precision=0.9534 recall=0.9566 f1=0.9548
+
+=== LogisticRegression ===
+accuracy=0.9603 precision=0.9438 recall=0.9508 f1=0.9468
+
+=== SVM ===
+accuracy=0.9634 precision=0.9487 recall=0.9537 f1=0.9509
+
+=== XGBoost ===
+accuracy=0.9587 precision=0.9435 recall=0.9497 f1=0.9463
+
+=== LightGBM ===
+accuracy=0.9666 precision=0.9540 recall=0.9549 f1=0.9545
+
+=== ExtraTrees ===
+accuracy=0.9650 precision=0.9508 recall=0.9549 f1=0.9527
+
+=== VotingEnsemble ===
+accuracy=0.9634 precision=0.9485 recall=0.9537 f1=0.9508
+
+saved: E:\plant_disease\LightETFusion_repro\runs\seed2\svmC10\phase2_results.json
+saved: E:\plant_disease\LightETFusion_repro\runs\seed2\svmC10\phase2_scaler.joblib, E:\plant_disease\LightETFusion_repro\runs\seed2\svmC10\phase2_extratrees.joblib
+
+=== Summary (LightET-FusionNet = ExtraTrees row) ===
+GradientBoosting     acc=96.66  prec=95.34  rec=95.66  f1=95.48
+LogisticRegression   acc=96.03  prec=94.38  rec=95.08  f1=94.68
+SVM                  acc=96.34  prec=94.87  rec=95.37  f1=95.09
+XGBoost              acc=95.87  prec=94.35  rec=94.97  f1=94.63
+LightGBM             acc=96.66  prec=95.40  rec=95.49  f1=95.45
+ExtraTrees           acc=96.50  prec=95.08  rec=95.49  f1=95.27
+VotingEnsemble       acc=96.34  prec=94.85  rec=95.37  f1=95.08
+=== seed 3 : SVM C=10.0 ===
+extracting features (layer=128)...
+train features: (2931, 128)  test features: (629, 128)
+
+=== GradientBoosting ===
+accuracy=0.9682 precision=0.9609 recall=0.9566 f1=0.9587
+
+=== LogisticRegression ===
+accuracy=0.9714 precision=0.9605 recall=0.9653 f1=0.9628
+
+=== SVM ===
+accuracy=0.9682 precision=0.9553 recall=0.9610 f1=0.9579
+
+=== XGBoost ===
+accuracy=0.9714 precision=0.9595 recall=0.9653 f1=0.9622
+
+=== LightGBM ===
+accuracy=0.9650 precision=0.9521 recall=0.9552 f1=0.9536
+
+=== ExtraTrees ===
+accuracy=0.9714 precision=0.9595 recall=0.9653 f1=0.9622
+
+=== VotingEnsemble ===
+accuracy=0.9730 precision=0.9641 recall=0.9653 f1=0.9647
+
+saved: E:\plant_disease\LightETFusion_repro\runs\seed3\svmC10\phase2_results.json
+saved: E:\plant_disease\LightETFusion_repro\runs\seed3\svmC10\phase2_scaler.joblib, E:\plant_disease\LightETFusion_repro\runs\seed3\svmC10\phase2_extratrees.joblib
+
+=== Summary (LightET-FusionNet = ExtraTrees row) ===
+GradientBoosting     acc=96.82  prec=96.09  rec=95.66  f1=95.87
+LogisticRegression   acc=97.14  prec=96.05  rec=96.53  f1=96.28
+SVM                  acc=96.82  prec=95.53  rec=96.10  f1=95.79
+XGBoost              acc=97.14  prec=95.95  rec=96.53  f1=96.22
+LightGBM             acc=96.50  prec=95.21  rec=95.52  f1=95.36
+ExtraTrees           acc=97.14  prec=95.95  rec=96.53  f1=96.22
+VotingEnsemble       acc=97.30  prec=96.41  rec=96.53  f1=96.47
+=== aggregating 3-seed svmC10 summary ===
+
+=== 3-seed SVM-C10 summary (mean +/- std, %) ===
+GradientBoosting     acc=96.93+/-0.27  prec=96.31+/-0.90  rec=95.61+/-0.07  f1=95.89+/-0.34
+LogisticRegression   acc=96.71+/-0.49  prec=95.89+/-1.18  rec=95.57+/-0.68  f1=95.64+/-0.69
+SVM                  acc=96.61+/-0.20  prec=95.53+/-0.54  rec=95.52+/-0.42  f1=95.49+/-0.30
+XGBoost              acc=96.71+/-0.60  prec=95.89+/-1.24  rec=95.63+/-0.66  f1=95.68+/-0.74
+LightGBM             acc=96.71+/-0.20  prec=95.95+/-0.92  rec=95.31+/-0.27  f1=95.55+/-0.21
+ExtraTrees           acc=96.87+/-0.27  prec=96.02+/-0.80  rec=95.76+/-0.56  f1=95.82+/-0.40
+VotingEnsemble       acc=96.93+/-0.42  prec=96.21+/-1.04  rec=95.76+/-0.55  f1=95.92+/-0.60
+
+saved: E:\plant_disease\LightETFusion_repro\runs\summary_3seeds_svmC10.json
+=== SVM-C10 RERUN DONE ===

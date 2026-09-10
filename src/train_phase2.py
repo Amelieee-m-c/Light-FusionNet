@@ -51,12 +51,12 @@ def build_eval_transform(img_size: int):
 
 
 @torch.no_grad()
-def extract_features(model, loader, device):
+def extract_features(model, loader, device, feature_layer=128):
     model.eval()
     feats, labels = [], []
     for x, y in loader:
         x = x.to(device)
-        h = model.embed(x)
+        h = model.embed256(x) if feature_layer == 256 else model.embed(x)
         feats.append(h.cpu().numpy())
         labels.append(y.numpy())
     return np.concatenate(feats), np.concatenate(labels)
@@ -78,16 +78,20 @@ def predict_hard_voting(clf, X):
     return vote_counts.argmax(axis=1)
 
 
-def build_classifiers(seed: int):
+def build_classifiers(seed: int, et_bootstrap: bool = False, svm_C: float = 1.0):
     return {
         "GradientBoosting": GradientBoostingClassifier(n_estimators=200, learning_rate=0.1, max_depth=3, random_state=seed),
         "LogisticRegression": LogisticRegression(C=1.0, max_iter=2000, penalty="l2", random_state=seed),
-        "SVM": SVC(kernel="rbf", C=1.0, gamma="scale", probability=True, random_state=seed),
+        # paper's GridSearchCV grid for SVM is C in {1.0, 10.0}; svm_C tests the untried 10.0.
+        "SVM": SVC(kernel="rbf", C=svm_C, gamma="scale", probability=True, random_state=seed),
         "XGBoost": XGBClassifier(n_estimators=300, max_depth=6, learning_rate=0.1, subsample=0.9,
                                   random_state=seed, eval_metric="mlogloss"),
         "LightGBM": LGBMClassifier(n_estimators=500, num_leaves=31, learning_rate=0.1, random_state=seed, verbosity=-1),
+        # bootstrap=False is sklearn's ExtraTrees default; paper says ET is "trained on
+        # bootstrapped subsets" -- et_bootstrap=True tests that literal reading.
         "ExtraTrees": ExtraTreesClassifier(n_estimators=200, max_depth=20, max_features="sqrt",
-                                            class_weight="balanced", random_state=seed),
+                                            class_weight="balanced", random_state=seed,
+                                            bootstrap=et_bootstrap),
     }
 
 
@@ -99,6 +103,16 @@ def main():
     ap.add_argument("--img_size", type=int, default=256)
     ap.add_argument("--batch_size", type=int, default=32)
     ap.add_argument("--seed", type=int, default=1)
+    ap.add_argument("--feature_layer", type=int, default=128, choices=[128, 256],
+                     help="which dense layer's activation to feed the classifiers -- "
+                          "128 = Figure 2's labeled default, 256 = 'third-to-last DENSE "
+                          "layer' literal reading (see model.py docstring point 2)")
+    ap.add_argument("--et_bootstrap", action="store_true",
+                     help="ExtraTreesClassifier(bootstrap=True) -- tests the paper's "
+                          "'trained on bootstrapped subsets' claim (sklearn default is False)")
+    ap.add_argument("--svm_C", type=float, default=1.0,
+                     help="SVM's C -- paper's GridSearchCV grid is {1.0, 10.0}; default 1.0 unchanged, "
+                          "10.0 is the untested candidate")
     args = ap.parse_args()
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -123,16 +137,16 @@ def main():
     train_loader = DataLoader(train_ds, batch_size=args.batch_size, shuffle=False, num_workers=4)
     test_loader = DataLoader(test_ds, batch_size=args.batch_size, shuffle=False, num_workers=4)
 
-    print("extracting features...")
-    X_train, y_train = extract_features(model, train_loader, device)
-    X_test, y_test = extract_features(model, test_loader, device)
+    print(f"extracting features (layer={args.feature_layer})...")
+    X_train, y_train = extract_features(model, train_loader, device, args.feature_layer)
+    X_test, y_test = extract_features(model, test_loader, device, args.feature_layer)
     print(f"train features: {X_train.shape}  test features: {X_test.shape}")
 
     scaler = StandardScaler().fit(X_train)
     X_train_s = scaler.transform(X_train)
     X_test_s = scaler.transform(X_test)
 
-    classifiers = build_classifiers(args.seed)
+    classifiers = build_classifiers(args.seed, et_bootstrap=args.et_bootstrap, svm_C=args.svm_C)
     voting = VotingClassifier(
         estimators=[("lr", classifiers["LogisticRegression"]),
                     ("svm", classifiers["SVM"]),

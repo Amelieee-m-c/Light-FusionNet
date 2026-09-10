@@ -1,0 +1,233 @@
+{
+  "GradientBoosting": {
+    "accuracy": 0.9745627980922098,
+    "precision_macro": 0.963651732882502,
+    "recall_macro": 0.9696796392975795,
+    "f1_macro": 0.9664607733058717,
+    "confusion_matrix": [
+      [
+        163,
+        0,
+        9,
+        0
+      ],
+      [
+        1,
+        195,
+        0,
+        0
+      ],
+      [
+        5,
+        0,
+        81,
+        0
+      ],
+      [
+        0,
+        0,
+        1,
+        174
+      ]
+    ],
+    "classification_report": "                precision    recall  f1-score   support\n\n        Blight     0.9645    0.9477    0.9560       172\n   Common_Rust     1.0000    0.9949    0.9974       196\nGray_Leaf_Spot     0.8901    0.9419    0.9153        86\n       Healthy     1.0000    0.9943    0.9971       175\n\n      accuracy                         0.9746       629\n     macro avg     0.9637    0.9697    0.9665       629\n  weighted avg     0.9753    0.9746    0.9748       629\n"
+  },
+  "LogisticRegression": {
+    "accuracy": 0.9713831478537361,
+    "precision_macro": 0.959486102133161,
+    "recall_macro": 0.965344091124822,
+    "f1_macro": 0.9622166263337695,
+    "confusion_matrix": [
+      [
+        163,
+        0,
+        9,
+        0
+      ],
+      [
+        1,
+        195,
+        0,
+        0
+      ],
+      [
+        6,
+        0,
+        80,
+        0
+      ],
+      [
+        0,
+        0,
+        2,
+        173
+      ]
+    ],
+    "classification_report": "                precision    recall  f1-score   support\n\n        Blight     0.9588    0.9477    0.9532       172\n   Common_Rust     1.0000    0.9949    0.9974       196\nGray_Leaf_Spot     0.8791    0.9302    0.9040        86\n       Healthy     1.0000    0.9886    0.9943       175\n\n      accuracy                         0.9714       629\n     macro avg     0.9595    0.9653    0.9622       629\n  weighted avg     0.9722    0.9714    0.9717       629\n"
+  },
+  "SVM": {
+    "accuracy": 0.9713831478537361,
+    "precision_macro": 0.9623763699545576,
+    "recall_macro": 0.9624121974371144,
+    "f1_macro": 0.962382687132209,
+    "confusion_matrix": [
+      [
+        164,
+        0,
+        8,
+        0
+      ],
+      [
+        1,
+        195,
+        0,
+        0
+      ],
+      [
+        8,
+        0,
+        78,
+        0
+      ],
+      [
+        1,
+        0,
+        0,
+        174
+      ]
+    ],
+    "classification_report": "                precision    recall  f1-score   support\n\n        Blight     0.9425    0.9535    0.9480       172\n   Common_Rust     1.0000    0.9949    0.9974       196\nGray_Leaf_Spot     0.9070    0.9070    0.9070        86\n       Healthy     1.0000    0.9943    0.9971       175\n\n      accuracy                         0.9714       629\n     macro avg     0.9624    0.9624    0.9624       629\n  weighted avg     0.9716    0.9714    0.9715       629\n"
+  },
+  "XGBoost": {
+    "accuracy": 0.9697933227344993,
+    "precision_macro": 0.9591820061357876,
+    "recall_macro": 0.963890602752729,
+    "f1_macro": 0.9614025407226081,
+    "confusion_matrix": [
+      [
+        162,
+        1,
+        9,
+        0
+      ],
+      [
+        1,
+        195,
+        0,
+        0
+      ],
+      [
+        6,
+        0,
+        80,
+        0
+      ],
+      [
+        1,
+        0,
+        1,
+        173
+      ]
+    ],
+    "classification_report": "                precision    recall  f1-score   support\n\n        Blight     0.9529    0.9419    0.9474       172\n   Common_Rust     0.9949    0.9949    0.9949       196\nGray_Leaf_Spot     0.8889    0.9302    0.9091        86\n       Healthy     1.0000    0.9886    0.9943       175\n\n      accuracy                         0.9698       629\n     macro avg     0.9592    0.9639    0.9614       629\n  weighted avg     0.9704    0.9698    0.9700       629\n"
+  },
+  "LightGBM": {
+    "accuracy": 0.9666136724960255,
+    "precision_macro": 0.9569246313509566,
+    "recall_macro": 0.9580517323208353,
+    "f1_macro": 0.9574587581599152,
+    "confusion_matrix": [
+      [
+        161,
+        0,
+        9,
+        2
+      ],
+      [
+        1,
+        195,
+        0,
+        0
+      ],
+      [
+        6,
+        2,
+        78,
+        0
+      ],
+      [
+        1,
+        0,
+        0,
+        174
+      ]
+    ],
+    "classification_report": "                precision    recall  f1-score   support\n\n        Blight     0.9527    0.9360    0.9443       172\n   Common_Rust     0.9898    0.9949    0.9924       196\nGray_Leaf_Spot     0.8966    0.9070    0.9017        86\n       Healthy     0.9886    0.9943    0.9915       175\n\n      accuracy                         0.9666       629\n     macro avg     0.9569    0.9581    0.9575       629\n  weighted avg     0.9666    0.9666    0.9666       629\n"
+  },
+  "ExtraTrees": {
+    "accuracy": 0.9666136724960255,
+    "precision_macro": 0.9556449014012649,
+    "recall_macro": 0.956623160892264,
+    "f1_macro": 0.9561167786965585,
+    "confusion_matrix": [
+      [
+        163,
+        0,
+        9,
+        0
+      ],
+      [
+        1,
+        195,
+        0,
+        0
+      ],
+      [
+        7,
+        2,
+        77,
+        0
+      ],
+      [
+        1,
+        0,
+        1,
+        173
+      ]
+    ],
+    "classification_report": "                precision    recall  f1-score   support\n\n        Blight     0.9477    0.9477    0.9477       172\n   Common_Rust     0.9898    0.9949    0.9924       196\nGray_Leaf_Spot     0.8851    0.8953    0.8902        86\n       Healthy     1.0000    0.9886    0.9943       175\n\n      accuracy                         0.9666       629\n     macro avg     0.9556    0.9566    0.9561       629\n  weighted avg     0.9668    0.9666    0.9667       629\n"
+  },
+  "VotingEnsemble": {
+    "accuracy": 0.9713831478537361,
+    "precision_macro": 0.959486102133161,
+    "recall_macro": 0.965344091124822,
+    "f1_macro": 0.9622166263337695,
+    "confusion_matrix": [
+      [
+        163,
+        0,
+        9,
+        0
+      ],
+      [
+        1,
+        195,
+        0,
+        0
+      ],
+      [
+        6,
+        0,
+        80,
+        0
+      ],
+      [
+        0,
+        0,
+        2,
+        173
+      ]
+    ],
+    "classification_report": "                precision    recall  f1-score   support\n\n        Blight     0.9588    0.9477    0.9532       172\n   Common_Rust     1.0000    0.9949    0.9974       196\nGray_Leaf_Spot     0.8791    0.9302    0.9040        86\n       Healthy     1.0000    0.9886    0.9943       175\n\n      accuracy                         0.9714       629\n     macro avg     0.9595    0.9653    0.9622       629\n  weighted avg     0.9722    0.9714    0.9717       629\n"
+  }
+}
