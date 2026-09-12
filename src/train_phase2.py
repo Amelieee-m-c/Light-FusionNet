@@ -78,7 +78,7 @@ def predict_hard_voting(clf, X):
     return vote_counts.argmax(axis=1)
 
 
-def build_classifiers(seed: int, et_bootstrap: bool = False, svm_C: float = 1.0):
+def build_classifiers(seed: int, et_bootstrap: bool = False, svm_C: float = 1.0, et_max_features: str = "sqrt"):
     return {
         "GradientBoosting": GradientBoostingClassifier(n_estimators=200, learning_rate=0.1, max_depth=3, random_state=seed),
         "LogisticRegression": LogisticRegression(C=1.0, max_iter=2000, penalty="l2", random_state=seed),
@@ -89,7 +89,9 @@ def build_classifiers(seed: int, et_bootstrap: bool = False, svm_C: float = 1.0)
         "LightGBM": LGBMClassifier(n_estimators=500, num_leaves=31, learning_rate=0.1, random_state=seed, verbosity=-1),
         # bootstrap=False is sklearn's ExtraTrees default; paper says ET is "trained on
         # bootstrapped subsets" -- et_bootstrap=True tests that literal reading.
-        "ExtraTrees": ExtraTreesClassifier(n_estimators=200, max_depth=20, max_features="sqrt",
+        # paper's GridSearchCV grid for max_features is {"sqrt","log2"}; et_max_features
+        # tests the untried "log2" (default stays "sqrt", the previously-assumed winner).
+        "ExtraTrees": ExtraTreesClassifier(n_estimators=200, max_depth=20, max_features=et_max_features,
                                             class_weight="balanced", random_state=seed,
                                             bootstrap=et_bootstrap),
     }
@@ -113,6 +115,9 @@ def main():
     ap.add_argument("--svm_C", type=float, default=1.0,
                      help="SVM's C -- paper's GridSearchCV grid is {1.0, 10.0}; default 1.0 unchanged, "
                           "10.0 is the untested candidate")
+    ap.add_argument("--et_max_features", default="sqrt", choices=["sqrt", "log2"],
+                     help="ExtraTreesClassifier's max_features -- paper's GridSearchCV grid is "
+                          "{'sqrt','log2'}; default 'sqrt' unchanged, 'log2' is the untested candidate")
     args = ap.parse_args()
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -146,7 +151,8 @@ def main():
     X_train_s = scaler.transform(X_train)
     X_test_s = scaler.transform(X_test)
 
-    classifiers = build_classifiers(args.seed, et_bootstrap=args.et_bootstrap, svm_C=args.svm_C)
+    classifiers = build_classifiers(args.seed, et_bootstrap=args.et_bootstrap, svm_C=args.svm_C,
+                                     et_max_features=args.et_max_features)
     voting = VotingClassifier(
         estimators=[("lr", classifiers["LogisticRegression"]),
                     ("svm", classifiers["SVM"]),
